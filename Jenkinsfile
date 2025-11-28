@@ -61,8 +61,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker ps -q --filter "publish=${PORT}" | xargs -r docker rm -f
-                        docker run -d --name app-${BRANCH_NAME} -p ${PORT}:${PORT} ${IMAGE}
+                        docker rm -f app-${BRANCH_NAME} || true
+
+                        docker run -d --name app-${BRANCH_NAME} -p ${PORT}:3000 ${IMAGE}
                     """
                 }
             }
